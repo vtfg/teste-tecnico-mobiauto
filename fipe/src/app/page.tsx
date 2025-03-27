@@ -1,6 +1,11 @@
 import { Card, CardContent, Typography, Container } from "@mui/material"
 
-export default function Home() {
+import { SearchForm } from "@/components/search-form"
+import { getCarBrands } from "@/services/fipe"
+
+export default async function Home() {
+  const brands = await getCarBrands()
+
   return (
     <Container
       sx={{
@@ -10,7 +15,7 @@ export default function Home() {
         alignItems: "center",
       }}
     >
-      <Card variant="outlined">
+      <Card sx={{ maxWidth: "sm" }}>
         <CardContent>
           <Typography
             gutterBottom
@@ -21,6 +26,8 @@ export default function Home() {
           <Typography variant="h5" component="div">
             Consulte o valor de um veículo de forma gratuita.
           </Typography>
+
+          <SearchForm initialData={{ brands }} />
         </CardContent>
       </Card>
     </Container>
