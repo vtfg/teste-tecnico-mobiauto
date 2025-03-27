@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Autocomplete, Button, Stack, TextField } from "@mui/material"
 
 import { Brand, Model, Year } from "@/services/fipe"
@@ -14,6 +15,8 @@ interface SearchFormProps {
 }
 
 export function SearchForm({ initialData }: SearchFormProps) {
+  const router = useRouter()
+
   const [brand, setBrand] = useState<Brand | null>(null)
   const [model, setModel] = useState<Model | null>(null)
   const [year, setYear] = useState<Year | null>(null)
@@ -30,7 +33,15 @@ export function SearchForm({ initialData }: SearchFormProps) {
   const shouldButtonBeDisabled = !brand || !model || !year
 
   function handleSubmit() {
-    console.table({ brand, model, year })
+    if (!brand || !model || !year) return
+
+    const query = new URLSearchParams({
+      brand: brand.codigo,
+      model: model.codigo.toString(),
+      year: year.codigo,
+    })
+
+    router.push("/price?" + query.toString())
   }
 
   return (

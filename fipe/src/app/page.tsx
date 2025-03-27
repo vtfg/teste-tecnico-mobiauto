@@ -15,7 +15,7 @@ export default async function Home() {
         alignItems: "center",
       }}
     >
-      <Card sx={{ maxWidth: "sm" }}>
+      <Card variant="outlined" sx={{ maxWidth: "sm" }}>
         <CardContent>
           <Typography
             gutterBottom
