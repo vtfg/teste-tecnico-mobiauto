@@ -6,6 +6,11 @@ export interface Brand {
 }
 
 export interface Model {
+  codigo: number
+  nome: string
+}
+
+export interface Year {
   codigo: string
   nome: string
 }
@@ -34,4 +39,22 @@ export async function getCarModelsByBrand({
   )
 
   return response.data.modelos
+}
+
+type GetCarYearsByBrandAndModelRequest = {
+  brandCode: string
+  modelCode: number
+}
+
+type GetCarYearsByBrandAndModelResponse = Year[]
+
+export async function getCarYearsByBrandAndModel({
+  brandCode,
+  modelCode,
+}: GetCarYearsByBrandAndModelRequest) {
+  const response = await axios.get<GetCarYearsByBrandAndModelResponse>(
+    `/carros/marcas/${brandCode}/modelos/${modelCode}/anos`,
+  )
+
+  return response.data
 }
