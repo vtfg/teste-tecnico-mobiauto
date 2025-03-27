@@ -3,15 +3,23 @@
 import { useState } from "react"
 import { Autocomplete, Button, Stack, TextField } from "@mui/material"
 
-import { GetCarBrandsResponse } from "@/services/fipe"
+import { Brand, Model } from "@/services/fipe"
+import { useCarModelsAndYears as useCarModels } from "@/services/queries/models"
 
 interface SearchFormProps {
   initialData: {
-    brands?: GetCarBrandsResponse
+    brands?: Brand[]
   }
 }
 
 export function SearchForm({ initialData }: SearchFormProps) {
+  const [brand, setBrand] = useState<Brand>()
+  const [model, setModel] = useState<Model>()
+
+  const { data: models, isLoading } = useCarModels({
+    brandCode: brand?.codigo,
+  })
+
   return (
     <Stack
       direction="column"
@@ -24,25 +32,32 @@ export function SearchForm({ initialData }: SearchFormProps) {
         getOptionLabel={(option) => option.nome}
         getOptionKey={(option) => option.codigo}
         renderInput={(params) => <TextField {...params} label="Marca" />}
+        onChange={(_, value) => setBrand(value)}
         loading={!initialData.brands}
         fullWidth
       />
 
       <Autocomplete
         disablePortal
-        options={[]}
+        options={models}
+        getOptionLabel={(option) => option.nome}
+        getOptionKey={(option) => option.codigo}
         renderInput={(params) => <TextField {...params} label="Modelo" />}
-        disabled
+        onChange={(_, value) => setModel(value)}
+        loading={isLoading}
+        disabled={!brand}
         fullWidth
       />
 
-      <Autocomplete
-        disablePortal
-        options={[]}
-        renderInput={(params) => <TextField {...params} label="Ano" />}
-        disabled
-        fullWidth
-      />
+      {model && (
+        <Autocomplete
+          disablePortal
+          options={[]}
+          renderInput={(params) => <TextField {...params} label="Ano" />}
+          disabled
+          fullWidth
+        />
+      )}
 
       <Button variant="contained" sx={{ width: "50%" }} disabled>
         Consultar preço

@@ -1,8 +1,12 @@
+"use client"
+
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter"
 import { ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
 import InitColorSchemeScript from "@mui/material/InitColorSchemeScript"
+import { QueryClientProvider } from "@tanstack/react-query"
 
+import { queryClient } from "@/lib/query-client"
 import theme from "@/lib/theme"
 
 interface ProvidersProps {
@@ -16,7 +20,9 @@ export function Providers({ children }: ProvidersProps) {
       <AppRouterCacheProvider options={{ enableCssLayer: true }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          {children}
+          <QueryClientProvider client={queryClient}>
+            {children}
+          </QueryClientProvider>
         </ThemeProvider>
       </AppRouterCacheProvider>
     </>
