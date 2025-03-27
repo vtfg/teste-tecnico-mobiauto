@@ -3,7 +3,7 @@ import { ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
 import InitColorSchemeScript from "@mui/material/InitColorSchemeScript"
 
-import theme from "./theme"
+import theme from "@/lib/theme"
 
 interface ProvidersProps {
   children: React.ReactNode
