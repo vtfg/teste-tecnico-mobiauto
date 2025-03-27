@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Autocomplete, Button, Stack, TextField } from "@mui/material"
+import { enqueueSnackbar } from "notistack"
 
 import { Brand, Model, Year } from "@/services/fipe"
 import { useCarModels } from "@/services/queries/models"
@@ -30,10 +31,15 @@ export function SearchForm({ initialData }: SearchFormProps) {
     modelCode: model?.codigo,
   })
 
-  const shouldButtonBeDisabled = !brand || !model || !year
+  const allFieldsFilled = !!brand && !!model && !!year
 
   function handleSubmit() {
-    if (!brand || !model || !year) return
+    if (!allFieldsFilled) {
+      enqueueSnackbar("Preencha todos os campos para concluir a pesquisa.", {
+        variant: "error",
+      })
+      return
+    }
 
     const query = new URLSearchParams({
       brand: brand.codigo,
@@ -45,11 +51,7 @@ export function SearchForm({ initialData }: SearchFormProps) {
   }
 
   return (
-    <Stack
-      direction="column"
-      spacing={2}
-      sx={{ alignItems: "center", marginTop: 3 }}
-    >
+    <Stack direction="column" spacing={2} sx={{ alignItems: "center" }}>
       <Autocomplete
         disablePortal
         options={initialData.brands}
@@ -63,7 +65,7 @@ export function SearchForm({ initialData }: SearchFormProps) {
         }}
         renderInput={(params) => <TextField {...params} label="Marca" />}
         noOptionsText="Marca não encontrada."
-        loading={!initialData.brands}
+        disabled={!initialData.brands}
         fullWidth
       />
 
@@ -103,7 +105,7 @@ export function SearchForm({ initialData }: SearchFormProps) {
         variant="contained"
         sx={{ width: "50%" }}
         onClick={handleSubmit}
-        disabled={shouldButtonBeDisabled}
+        disabled={!allFieldsFilled}
       >
         Consultar preço
       </Button>

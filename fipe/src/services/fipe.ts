@@ -30,9 +30,11 @@ export interface Car {
 type GetCarBrandsResponse = Brand[]
 
 export async function getCarBrands() {
-  const response = await axios.get<GetCarBrandsResponse>("/carros/marcas")
+  try {
+    const response = await axios.get<GetCarBrandsResponse>("/carros/marcas")
 
-  return response.data
+    return response.data
+  } catch {}
 }
 
 type GetCarModelsByBrandRequest = {
@@ -84,9 +86,11 @@ export async function getCar({
   modelCode,
   yearCode,
 }: GetCarRequest) {
-  const response = await axios.get<GetCarResponse>(
-    `/carros/marcas/${brandCode}/modelos/${modelCode}/anos/${yearCode}`,
-  )
+  try {
+    const response = await axios.get<GetCarResponse>(
+      `/carros/marcas/${brandCode}/modelos/${modelCode}/anos/${yearCode}`,
+    )
 
-  return response.data
+    return response.data
+  } catch {}
 }

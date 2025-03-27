@@ -8,9 +8,9 @@ import {
   Stack,
   Typography,
 } from "@mui/material"
+import { ArrowBack } from "@mui/icons-material"
 
 import { getCar } from "@/services/fipe"
-import { ArrowBack } from "@mui/icons-material"
 
 interface PriceProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -19,15 +19,23 @@ interface PriceProps {
 export default async function Price({ searchParams }: PriceProps) {
   const params = await searchParams
 
+  if (!Object.keys(params).length) {
+    return redirect("/?error=BAD_REQUEST")
+  }
+
   const brandCode = params.brand as string
   const modelCode = Number(params.model.toString())
   const yearCode = params.year as string
 
   if (!brandCode || !modelCode || !yearCode) {
-    return redirect("/")
+    return redirect("/?error=BAD_REQUEST")
   }
 
   const car = await getCar({ brandCode, modelCode, yearCode })
+
+  if (!car) {
+    return redirect("/?error=NOT_FOUND")
+  }
 
   async function handleRedirectBack() {
     "use server"
