@@ -1,12 +1,9 @@
 import type { Metadata } from "next"
-import { Roboto } from "next/font/google"
 
-const roboto = Roboto({
-  subsets: ["latin"],
-})
+import { Providers } from "./providers"
 
 export const metadata: Metadata = {
-  title: "Fipe",
+  title: "Tabela Fipe",
   description: "Consulte a tabela Fipe de qualquer carro em segundos.",
 }
 
@@ -16,8 +13,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR">
-      <body className={roboto.className}>{children}</body>
+    <html lang="pt-BR" suppressHydrationWarning>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   )
 }
