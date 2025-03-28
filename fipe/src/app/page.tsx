@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation"
-import { Card, CardContent, Typography, Container, Stack } from "@mui/material"
+import { Card, CardContent, Typography, Stack } from "@mui/material"
 
 import { ErrorAlert } from "@/components/error-alert"
 import { SearchForm } from "@/components/search-form"
@@ -25,32 +25,20 @@ export default async function Home({ searchParams }: HomeProps) {
   }
 
   return (
-    <Container
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Card variant="outlined" sx={{ maxWidth: "sm" }}>
-        <CardContent>
-          <Typography
-            gutterBottom
-            sx={{ color: "text.secondary", fontSize: 14 }}
-          >
-            Tabela Fipe
-          </Typography>
-          <Typography variant="h5" component="div">
-            Consulte o valor de um veículo de forma gratuita.
-          </Typography>
+    <Card variant="outlined" sx={{ width: "100%", maxWidth: "sm" }}>
+      <CardContent>
+        <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
+          Tabela Fipe
+        </Typography>
+        <Typography variant="h5" component="div">
+          Consulte o valor de um veículo de forma gratuita.
+        </Typography>
 
-          <Stack spacing={2} sx={{ marginTop: 3 }}>
-            <ErrorAlert />
-            <SearchForm initialData={{ brands }} />
-          </Stack>
-        </CardContent>
-      </Card>
-    </Container>
+        <Stack spacing={2} sx={{ marginTop: 3 }}>
+          <ErrorAlert />
+          <SearchForm initialData={{ brands }} />
+        </Stack>
+      </CardContent>
+    </Card>
   )
 }

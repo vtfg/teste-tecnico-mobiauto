@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Container } from "@mui/material"
 
 import { Providers } from "./providers"
 
@@ -15,7 +16,18 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Container
+            sx={{
+              minHeight: "100vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {children}
+          </Container>
+        </Providers>
       </body>
     </html>
   )

@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   Chip,
-  Container,
   Stack,
   Typography,
 } from "@mui/material"
@@ -44,47 +43,35 @@ export default async function Price({ searchParams }: PriceProps) {
   }
 
   return (
-    <Container
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Card variant="outlined" sx={{ minWidth: "480px", maxWidth: "sm" }}>
-        <CardContent>
-          <Button
-            size="small"
-            startIcon={<ArrowBack />}
-            sx={{ marginBottom: 2 }}
-            onClick={handleRedirectBack}
-          >
-            Voltar
-          </Button>
+    <Card variant="outlined" sx={{ width: "100%", maxWidth: "sm" }}>
+      <CardContent>
+        <Button
+          size="small"
+          startIcon={<ArrowBack />}
+          sx={{ marginBottom: 2 }}
+          onClick={handleRedirectBack}
+        >
+          Voltar
+        </Button>
+
+        <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
+          Tabela Fipe
+        </Typography>
+        <Typography variant="h5" component="h1" fontWeight="bold">
+          {car.Marca} {car.Modelo} {car.AnoModelo}
+        </Typography>
+
+        <Stack spacing={2} sx={{ justifyContent: "center", marginTop: 2 }}>
+          <Chip label={car.Valor} color="primary" sx={{ fontSize: 16 }} />
 
           <Typography
             gutterBottom
             sx={{ color: "text.secondary", fontSize: 14 }}
           >
-            Tabela Fipe
+            Este é o preço de compra do veículo.
           </Typography>
-          <Typography variant="h5" component="h1" fontWeight="bold">
-            {car.Marca} {car.Modelo} {car.AnoModelo}
-          </Typography>
-
-          <Stack spacing={2} sx={{ justifyContent: "center", marginTop: 2 }}>
-            <Chip label={car.Valor} color="primary" sx={{ fontSize: 16 }} />
-
-            <Typography
-              gutterBottom
-              sx={{ color: "text.secondary", fontSize: 14 }}
-            >
-              Este é o preço de compra do veículo.
-            </Typography>
-          </Stack>
-        </CardContent>
-      </Card>
-    </Container>
+        </Stack>
+      </CardContent>
+    </Card>
   )
 }
