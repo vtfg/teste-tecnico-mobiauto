@@ -11,7 +11,7 @@ interface HomeProps {
 
 export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams
-  const errorFromParams = params.error
+  const errorFromParams = params.error as string
 
   const { data: brands, error } = await getCarBrands()
 
@@ -22,8 +22,12 @@ export default async function Home({ searchParams }: HomeProps) {
   }
 
   // Removes the error from the query if the API returns data
-  // Leaves the NOT_FOUND error so the user can have a feedback on his previous search
-  if (!error && errorFromParams && errorFromParams !== "NOT_FOUND") {
+  // Leaves the BAD_REQUEST or NOT_FOUND error so the user can have a feedback on his previous search
+  if (
+    !error &&
+    errorFromParams &&
+    !["BAD_REQUEST", "NOT_FOUND"].includes(errorFromParams)
+  ) {
     redirect("/")
   }
 
