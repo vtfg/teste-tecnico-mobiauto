@@ -11,15 +11,19 @@ interface HomeProps {
 
 export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams
+  const errorFromParams = params.error
 
   const { data: brands, error } = await getCarBrands()
 
-  if (error && params.error !== error) {
+  // Replaces the current error in params with a new error
+  // This happens mostly when the user got a NOT_FOUND in /price but now the API got rate limited
+  if (error && errorFromParams !== error) {
     redirect(`/?error=${error}`)
   }
 
   // Removes the error from the query if the API returns data
-  if (!error && params.error) {
+  // Leaves the NOT_FOUND error so the user can have a feedback on his previous search
+  if (!error && errorFromParams && errorFromParams !== "NOT_FOUND") {
     redirect("/")
   }
 

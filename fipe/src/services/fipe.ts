@@ -154,6 +154,11 @@ export async function getCar({
       return { data: null, error: "TOO_MANY_REQUESTS" }
     }
 
+    if (status === HttpStatusCode.InternalServerError) {
+      // The API returns 500 if the car is not found
+      return { data: null, error: "NOT_FOUND" }
+    }
+
     return { data: null, error: "INTERNAL_SERVER_ERROR" }
   }
 }
