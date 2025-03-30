@@ -1,4 +1,7 @@
+import { AxiosError, HttpStatusCode } from "axios"
+
 import { axios } from "@/lib/axios"
+import { ApplicationError } from "@/types"
 
 export interface Brand {
   codigo: string
@@ -27,14 +30,29 @@ export interface Car {
   Valor: string
 }
 
-type GetCarBrandsResponse = Brand[]
+type GetCarBrandsResponse = {
+  data: Brand[]
+  error?: ApplicationError
+}
 
-export async function getCarBrands() {
+export async function getCarBrands(): Promise<GetCarBrandsResponse> {
   try {
-    const response = await axios.get<GetCarBrandsResponse>("/carros/marcas")
+    const { data } = await axios.get("/carros/marcas")
 
-    return response.data
-  } catch {}
+    return { data, error: null }
+  } catch (error) {
+    if (!(error instanceof AxiosError)) {
+      return { data: null, error: "INTERNAL_SERVER_ERROR" }
+    }
+
+    const { status } = error as AxiosError
+
+    if (status === HttpStatusCode.TooManyRequests) {
+      return { data: null, error: "TOO_MANY_REQUESTS" }
+    }
+
+    return { data: null, error: "INTERNAL_SERVER_ERROR" }
+  }
 }
 
 type GetCarModelsByBrandRequest = {
@@ -42,17 +60,30 @@ type GetCarModelsByBrandRequest = {
 }
 
 type GetCarModelsByBrandResponse = {
-  modelos: Model[]
+  data: Model[]
+  error?: ApplicationError
 }
 
 export async function getCarModelsByBrand({
   brandCode,
-}: GetCarModelsByBrandRequest) {
-  const response = await axios.get<GetCarModelsByBrandResponse>(
-    `/carros/marcas/${brandCode}/modelos`,
-  )
+}: GetCarModelsByBrandRequest): Promise<GetCarModelsByBrandResponse> {
+  try {
+    const { data } = await axios.get(`/carros/marcas/${brandCode}/modelos`)
 
-  return response.data.modelos
+    return { data: data.modelos, error: null }
+  } catch (error) {
+    if (!(error instanceof AxiosError)) {
+      return { data: null, error: "INTERNAL_SERVER_ERROR" }
+    }
+
+    const { status } = error as AxiosError
+
+    if (status === HttpStatusCode.TooManyRequests) {
+      return { data: null, error: "TOO_MANY_REQUESTS" }
+    }
+
+    return { data: null, error: "INTERNAL_SERVER_ERROR" }
+  }
 }
 
 type GetCarYearsByBrandAndModelRequest = {
@@ -60,17 +91,34 @@ type GetCarYearsByBrandAndModelRequest = {
   modelCode: number
 }
 
-type GetCarYearsByBrandAndModelResponse = Year[]
+type GetCarYearsByBrandAndModelResponse = {
+  data: Year[]
+  error?: ApplicationError
+}
 
 export async function getCarYearsByBrandAndModel({
   brandCode,
   modelCode,
-}: GetCarYearsByBrandAndModelRequest) {
-  const response = await axios.get<GetCarYearsByBrandAndModelResponse>(
-    `/carros/marcas/${brandCode}/modelos/${modelCode}/anos`,
-  )
+}: GetCarYearsByBrandAndModelRequest): Promise<GetCarYearsByBrandAndModelResponse> {
+  try {
+    const { data } = await axios.get(
+      `/carros/marcas/${brandCode}/modelos/${modelCode}/anos`,
+    )
 
-  return response.data
+    return { data, error: null }
+  } catch (error) {
+    if (!(error instanceof AxiosError)) {
+      return { data: null, error: "INTERNAL_SERVER_ERROR" }
+    }
+
+    const { status } = error as AxiosError
+
+    if (status === HttpStatusCode.TooManyRequests) {
+      return { data: null, error: "TOO_MANY_REQUESTS" }
+    }
+
+    return { data: null, error: "INTERNAL_SERVER_ERROR" }
+  }
 }
 
 type GetCarRequest = {
@@ -79,18 +127,33 @@ type GetCarRequest = {
   yearCode: string
 }
 
-type GetCarResponse = Car
+type GetCarResponse = {
+  data: Car
+  error?: ApplicationError
+}
 
 export async function getCar({
   brandCode,
   modelCode,
   yearCode,
-}: GetCarRequest) {
+}: GetCarRequest): Promise<GetCarResponse> {
   try {
-    const response = await axios.get<GetCarResponse>(
+    const { data } = await axios.get(
       `/carros/marcas/${brandCode}/modelos/${modelCode}/anos/${yearCode}`,
     )
 
-    return response.data
-  } catch {}
+    return { data, error: null }
+  } catch (error) {
+    if (!(error instanceof AxiosError)) {
+      return { data: null, error: "INTERNAL_SERVER_ERROR" }
+    }
+
+    const { status } = error as AxiosError
+
+    if (status === HttpStatusCode.TooManyRequests) {
+      return { data: null, error: "TOO_MANY_REQUESTS" }
+    }
+
+    return { data: null, error: "INTERNAL_SERVER_ERROR" }
+  }
 }

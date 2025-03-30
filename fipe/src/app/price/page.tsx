@@ -23,17 +23,17 @@ export default async function Price({ searchParams }: PriceProps) {
   }
 
   const brandCode = params.brand as string
-  const modelCode = Number(params.model.toString())
+  const modelCode = Number(params.model?.toString())
   const yearCode = params.year as string
 
   if (!brandCode || !modelCode || !yearCode) {
     return redirect("/?error=BAD_REQUEST")
   }
 
-  const car = await getCar({ brandCode, modelCode, yearCode })
+  const { data: car, error } = await getCar({ brandCode, modelCode, yearCode })
 
-  if (!car) {
-    return redirect("/?error=NOT_FOUND")
+  if (error) {
+    return redirect(`/?error=${error}`)
   }
 
   async function handleRedirectBack() {

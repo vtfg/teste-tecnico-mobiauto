@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
+import { errorMessages } from "@/lib/constants"
 import { getCarYearsByBrandAndModel } from "@/services/fipe"
 
 interface UseCarYearsParams {
@@ -13,9 +14,17 @@ export function useCarYears({ brandCode, modelCode }: UseCarYearsParams) {
     queryFn: async () => {
       if (!brandCode || !modelCode) return []
 
-      const years = await getCarYearsByBrandAndModel({ brandCode, modelCode })
+      const { data, error } = await getCarYearsByBrandAndModel({
+        brandCode,
+        modelCode,
+      })
 
-      return years
+      if (error) {
+        throw new Error(errorMessages[error])
+      }
+
+      return data
     },
+    retry: false,
   })
 }

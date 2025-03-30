@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
+import { errorMessages } from "@/lib/constants"
 import { getCarModelsByBrand } from "@/services/fipe"
 
 interface UseCarModelsParams {
@@ -12,9 +13,14 @@ export function useCarModels({ brandCode }: UseCarModelsParams) {
     queryFn: async () => {
       if (!brandCode) return []
 
-      const models = await getCarModelsByBrand({ brandCode })
+      const { data, error } = await getCarModelsByBrand({ brandCode })
 
-      return models
+      if (error) {
+        throw new Error(errorMessages[error])
+      }
+
+      return data
     },
+    retry: false,
   })
 }

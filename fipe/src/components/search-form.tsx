@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Autocomplete, Button, Stack, TextField } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
@@ -22,16 +22,40 @@ export function SearchForm({ initialData }: SearchFormProps) {
   const [model, setModel] = useState<Model | null>(null)
   const [year, setYear] = useState<Year | null>(null)
 
-  const { data: models, isLoading: isModelsLoading } = useCarModels({
+  const {
+    data: models,
+    isLoading: isModelsLoading,
+    error: modelsError,
+  } = useCarModels({
     brandCode: brand?.codigo,
   })
 
-  const { data: years, isLoading: isYearsLoading } = useCarYears({
+  const {
+    data: years,
+    isLoading: isYearsLoading,
+    error: yearsError,
+  } = useCarYears({
     brandCode: brand?.codigo,
     modelCode: model?.codigo,
   })
 
   const allFieldsFilled = !!brand && !!model && !!year
+
+  useEffect(() => {
+    if (modelsError) {
+      enqueueSnackbar(modelsError.message, {
+        variant: "error",
+      })
+    }
+  }, [modelsError])
+
+  useEffect(() => {
+    if (yearsError) {
+      enqueueSnackbar(yearsError.message, {
+        variant: "error",
+      })
+    }
+  }, [yearsError])
 
   function handleSubmit() {
     if (!allFieldsFilled) {
@@ -82,7 +106,7 @@ export function SearchForm({ initialData }: SearchFormProps) {
         renderInput={(params) => <TextField {...params} label="Modelo" />}
         noOptionsText="Modelo não encontrado."
         loading={isModelsLoading}
-        disabled={!brand}
+        disabled={!brand || !models}
         fullWidth
       />
 
@@ -97,6 +121,7 @@ export function SearchForm({ initialData }: SearchFormProps) {
           renderInput={(params) => <TextField {...params} label="Ano" />}
           noOptionsText="Ano não encontrado."
           loading={isYearsLoading}
+          disabled={!years}
           fullWidth
         />
       )}

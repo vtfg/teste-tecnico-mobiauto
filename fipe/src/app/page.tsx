@@ -12,15 +12,14 @@ interface HomeProps {
 export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams
 
-  const brands = await getCarBrands()
+  const { data: brands, error } = await getCarBrands()
 
-  // The API is rate limited
-  if (!brands && params.error !== "TOO_MANY_REQUESTS") {
-    redirect("/?error=TOO_MANY_REQUESTS")
+  if (error && params.error !== error) {
+    redirect(`/?error=${error}`)
   }
 
-  // Removes the TOO_MANY_REQUESTS error from query if the API returns data
-  if (brands && params.error === "TOO_MANY_REQUESTS") {
+  // Removes the error from the query if the API returns data
+  if (!error && params.error) {
     redirect("/")
   }
 
