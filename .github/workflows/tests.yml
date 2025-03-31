@@ -37,9 +37,9 @@ jobs:
           sleep 10
 
       - name: Run fipe's Cypress tests
-        working-directory: ./fipe
         uses: cypress-io/github-action@v6
         with:
+          working-directory: ./fipe
           browser: chrome
 
       - name: Stop fipe's Next.js server
