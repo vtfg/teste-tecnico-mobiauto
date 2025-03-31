@@ -77,6 +77,7 @@ export function SearchForm({ initialData }: SearchFormProps) {
   return (
     <Stack direction="column" spacing={2} sx={{ alignItems: "center" }}>
       <Autocomplete
+        id="brand"
         disablePortal
         options={initialData.brands}
         getOptionLabel={(option) => option.nome}
@@ -94,6 +95,7 @@ export function SearchForm({ initialData }: SearchFormProps) {
       />
 
       <Autocomplete
+        id="model"
         disablePortal
         options={models}
         getOptionLabel={(option) => option.nome}
@@ -112,6 +114,7 @@ export function SearchForm({ initialData }: SearchFormProps) {
 
       {model && (
         <Autocomplete
+          id="year"
           disablePortal
           options={years}
           getOptionLabel={(option) => option.nome}

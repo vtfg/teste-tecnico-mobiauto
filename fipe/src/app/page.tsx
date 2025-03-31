@@ -37,7 +37,7 @@ export default async function Home({ searchParams }: HomeProps) {
         <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
           Tabela Fipe
         </Typography>
-        <Typography variant="h5" component="div">
+        <Typography variant="h5" component="h1">
           Consulte o valor de um veículo de forma gratuita.
         </Typography>
 
