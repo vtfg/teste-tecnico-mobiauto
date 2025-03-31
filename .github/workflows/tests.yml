@@ -32,6 +32,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           working-directory: ./fipe
+          install: false
           build: npm run build
           start: npm run start
           browser: chrome
