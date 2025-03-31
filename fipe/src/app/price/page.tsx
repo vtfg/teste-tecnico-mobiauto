@@ -62,7 +62,12 @@ export default async function Price({ searchParams }: PriceProps) {
         </Typography>
 
         <Stack spacing={2} sx={{ justifyContent: "center", marginTop: 2 }}>
-          <Chip label={car.Valor} color="primary" sx={{ fontSize: 16 }} />
+          <Chip
+            label={car.Valor}
+            color="primary"
+            component="h2"
+            sx={{ fontSize: 16 }}
+          />
 
           <Typography
             gutterBottom
