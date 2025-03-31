@@ -38,6 +38,7 @@ Se possuir o `nvm` ([Node Version Manager](https://github.com/nvm-sh/nvm)), exec
 
 - Clone o repositório
 - Instale as dependências com `npm i`
+- - Entre no diretório `fipe` com `cd ./fipe`
 - Inicie o servidor do Next.js com `npm run dev`
 
 A aplicação estará disponível na URL http://localhost:3000.
