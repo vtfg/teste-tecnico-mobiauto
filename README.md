@@ -32,13 +32,13 @@ O teste técnico é divido em duas partes:
 
 Certifique-se de possuir uma versão do Node.js compatível com o projeto (>= v18).
 
-Se possuir o `nvm` ([Node Version Manager](https://github.com/nvm-sh/nvm)), execute `nvm install`. Esse comando instalará a versão informada no arquivo `.nvmrc`, versão no qual esse projeto foi desenvolvido.
+Se estiver usando o `nvm` ([Node Version Manager](https://github.com/nvm-sh/nvm)), execute `nvm install`. Esse comando instalará a versão informada no arquivo `.nvmrc`, versão no qual esse projeto foi desenvolvido.
 
 ### Tabela fipe (`fipe`)
 
 - Clone o repositório
 - Instale as dependências com `npm i`
-- - Entre no diretório `fipe` com `cd ./fipe`
+- Entre no diretório `fipe` com `cd ./fipe`
 - Inicie o servidor do Next.js com `npm run dev`
 
 A aplicação estará disponível na URL http://localhost:3000.
