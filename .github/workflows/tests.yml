@@ -26,8 +26,22 @@ jobs:
 
       - name: Run tests for exercises
         working-directory: ./exercises
-        run: npm test
+        run: npm run test
 
-      - name: Run tests for fipe
+      - name: Start fipe's Next.js server
         working-directory: ./fipe
-        run: npm run test:e2e
+        run: |
+          npm run build
+          npm start &
+          SERVER_PID=$!
+          sleep 10
+
+      - name: Run fipe's Cypress tests
+        working-directory: ./fipe
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+
+      - name: Stop fipe's Next.js server
+        run: |
+          kill $SERVER_PID # Kill the server process
