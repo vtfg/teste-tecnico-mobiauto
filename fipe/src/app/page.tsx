@@ -42,7 +42,7 @@ export default async function Home({ searchParams }: HomeProps) {
         </Typography>
 
         <Stack spacing={2} sx={{ marginTop: 3 }}>
-          <ErrorAlert />
+          <ErrorAlert error={errorFromParams} />
           <SearchForm initialData={{ brands }} />
         </Stack>
       </CardContent>

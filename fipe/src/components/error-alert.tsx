@@ -1,14 +1,14 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
 import { Alert } from "@mui/material"
 
 import { errorMessages } from "@/lib/constants"
 
-export function ErrorAlert() {
-  const searchParams = useSearchParams()
-  const error = searchParams.get("error")
+interface ErrorAlertProps {
+  error?: string
+}
 
+export function ErrorAlert({ error }: ErrorAlertProps) {
   const message = errorMessages[error]
 
   if (!message) return null
